@@ -6,75 +6,96 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Tymon\JWTAuth\Facades\JWTAuth; // Импортируем JWT
+use Pusher\Pusher;
 
 class AuthController extends Controller
 {
+
     public function showRegisterForm()
     {
         return view('auth.register');
     }
-
     public function register(Request $request)
     {
-        // Валидация данных
         $request->validate([
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
         ]);
 
-        // Создаём пользователя
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        // Создаём токен JWT
-        $token = JWTAuth::fromUser($user);
+        $token = $user->createToken('auth_token')->plainTextToken;
 
-        // Возвращаем JSON-ответ с токеном
-        return response()->json([
-            'message' => 'Registration successful',
-            'token' => $token
-        ]);
+        // Возвращаем JSON-ответ с токеном и кукой
+        return response()->json(['message' => 'Registration successful'])->cookie('token', $token, 60*24*30);
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        $user = Auth::user();
-
-        // Генерация JWT токена
-        $token = JWTAuth::fromUser($user);
-
-        return response()->json([
-            'message' => 'Login successful',
-            'token' => $token
-        ]);
+    // Проверка аутентификации пользователя
+    if (!Auth::attempt($request->only('email', 'password'))) {
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
+
+    $user = Auth::user();
+
+    // Создание токена
+    $token = $user->createToken('auth_token')->plainTextToken;
+
+    // Возвращаем JSON-ответ с сообщением и токеном
+    return response()->json([
+        'message' => 'Login successful',
+        'token' => $token
+    ])->cookie('token', $token, 60*24*30);
+
+}
+
+
+
+
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+
 
     public function logout(Request $request)
     {
-        // Логика для выхода и инвалидирования токена
-        JWTAuth::invalidate(JWTAuth::getToken());
+        if ($request->user()) {
+            $request->user()->tokens()->delete();
+        }
 
-        return response()->json(['message' => 'Logout successful']);
+        return response()->json(['message' => 'Вы успешно вышли'], 200)->cookie('token', '', -1)->cookie('laravel_session', '', -1);
     }
 
     public function pusherAuth(Request $request)
     {
         if (Auth::check()) {
-            // Логика для аутентификации через Pusher
+            $pusher = new Pusher(
+                env('PUSHER_APP_KEY'),
+                env('PUSHER_APP_SECRET'),
+                env('PUSHER_APP_ID'),
+                [
+                    'cluster' => env('PUSHER_APP_CLUSTER'),
+                    'useTLS' => true,
+                ]
+            );
+
+            return $pusher->socket_auth($request->channel_name, $request->socket_id);
         } else {
             return response('Forbidden', 403);
         }
     }
+
+
 }
+
