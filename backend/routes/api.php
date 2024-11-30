@@ -17,13 +17,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/halls', [HallController::class, 'store']); // Добавление зала (админ)
     Route::put('/halls/{id}', [HallController::class, 'update']); // Обновление зала (админ)
     Route::delete('/halls/{id}', [HallController::class, 'destroy']); // Удаление зала (админ)
-
-
     // Маршруты бронирования
     Route::get('/bookings', [BookingController::class, 'index']); // Получение списка бронирований
     Route::post('/bookings', [BookingController::class, 'store']); // Создание бронирования
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy']); // Удаление бронирования
-
+    Route::put('/bookings/{id}', [BookingController::class, 'update']); // Обновление бронирования
     // Маршруты пользователей (только для администратора)
     Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
         Route::get('/users', [UserController::class, 'index']); // Получение списка пользователей

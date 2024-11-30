@@ -18,7 +18,7 @@
         <input type="datetime-local" v-model="booking.end_time" required class="form-control" />
       </div>
       <div class="form-group">
-        <label for="reason">Причина:</label>
+        <label for="reason">Описание:</label>
         <input type="text" v-model="booking.reason" required class="form-control" placeholder="Введите причину" />
       </div>
       <button type="submit" class="submit-btn">Создать бронирование</button>

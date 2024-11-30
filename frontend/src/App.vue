@@ -34,9 +34,7 @@ onMounted(() => {
           <RouterLink to="/bookings" v-if="isLoggedIn" class="nav-item"
             >Bookings</RouterLink
           >
-          <RouterLink to="/create" v-if="isLoggedIn" class="nav-item"
-            >Create</RouterLink
-          >
+      
           <RouterLink to="/halls" v-if="isLoggedIn" class="nav-item"
             >Halls</RouterLink
           >
@@ -46,7 +44,7 @@ onMounted(() => {
           </template>
         </div>
         <div class="xz">
-          <span>{{ email }}</span>
+          <span class="email">{{ email }}</span>
           <button v-if="isLoggedIn" @click="logout" class="logout-btn">
             Logout
           </button>
@@ -65,7 +63,9 @@ onMounted(() => {
 body {
   margin: 0;
 }
-
+.email {
+  color: #fff;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
