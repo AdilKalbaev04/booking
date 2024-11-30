@@ -50,12 +50,12 @@ class AuthController extends Controller
         // Создание токена
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // Возвращаем JSON-ответ с сообщением, email и токеном
         return response()->json([
             'message' => 'Login successful',
-            'email' => $user->email, // Используем email пользователя из Auth
+            'email' => $user->email,
+            'role' => $user->role,
             'token' => $token
-        ])->cookie('token', $token, 60*24*30); // Сохраняем токен в cookie
+        ])->cookie('token', $token, 60*24*30);
     }
 
 

@@ -31,7 +31,7 @@ const deleteHall = async (id) => {
 
 <template>
   <div class="hall-list">
-    <h1>Available Halls</h1>
+    <h1>Halls</h1>
     <div class="hall-cards">
       <div v-for="hall in halls" :key="hall.id" class="hall-card">
         <h2>{{ hall.name }}</h2>
@@ -40,7 +40,9 @@ const deleteHall = async (id) => {
         <button @click="$router.push(`/halls/edit/${hall.id}`)">Edit</button>
       </div>
     </div>
-    <button @click="$router.push('/halls/create')" class="add-btn">Add New Hall</button>
+    <button @click="$router.push('/halls/create')" class="add-btn">
+      Add New Hall
+    </button>
   </div>
 </template>
 

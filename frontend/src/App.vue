@@ -1,17 +1,25 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
+import { onMounted } from "vue";
+import { RouterLink, RouterView, useRouter } from "vue-router";
 
 function logout() {
   localStorage.removeItem("token");
+  localStorage.removeItem("email");
+  localStorage.removeItem("role");
   location.reload();
 }
+const router = useRouter();
 
 const isLoggedIn = !!localStorage.getItem("token");
 const email = localStorage.getItem("email");
+const userRole = localStorage.getItem("role");
+const isAdmin = userRole === "admin";
 
-// Пример проверки роли пользователя, предполагая, что токен содержит роль
-const userRole = localStorage.getItem("role"); // Роль может быть сохранена в localStorage вместе с токеном
-const isAdmin = userRole === "admin"; // Пример проверки роли "admin"
+onMounted(() => {
+  if (isLoggedIn) {
+    router.push("/halls");
+  }
+});
 </script>
 
 <template>
@@ -19,7 +27,6 @@ const isAdmin = userRole === "admin"; // Пример проверки роли 
     <div class="wrapper">
       <nav class="navbar">
         <div class="nav-links">
-          <h1>{{ email }}</h1>
           <RouterLink v-if="isAdmin" to="/users" class="nav-item"
             >Users</RouterLink
           >
@@ -38,17 +45,27 @@ const isAdmin = userRole === "admin"; // Пример проверки роли 
             <RouterLink to="/register" class="nav-item">Register</RouterLink>
           </template>
         </div>
-        <button v-if="isLoggedIn" @click="logout" class="logout-btn">
-          Logout
-        </button>
+        <div class="xz">
+          <span>{{ email }}</span>
+          <button v-if="isLoggedIn" @click="logout" class="logout-btn">
+            Logout
+          </button>
+        </div>
       </nav>
     </div>
   </header>
-
   <RouterView />
 </template>
 
-<style scoped>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -57,6 +74,11 @@ const isAdmin = userRole === "admin"; // Пример проверки роли 
   padding: 15px 30px;
 }
 
+.xz {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .nav-links {
   display: flex;
 }
