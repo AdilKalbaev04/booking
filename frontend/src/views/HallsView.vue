@@ -8,6 +8,8 @@ const fetchHalls = async () => {
   try {
     const response = await axios.get("/halls");
     halls.value = response.data;
+    console.log(response.data);
+    
   } catch (error) {
     console.error("Error fetching halls:", error);
   }

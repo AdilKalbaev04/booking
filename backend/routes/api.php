@@ -17,7 +17,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/halls', [HallController::class, 'store']); // Добавление зала (админ)
     Route::put('/halls/{id}', [HallController::class, 'update']); // Обновление зала (админ)
     Route::delete('/halls/{id}', [HallController::class, 'destroy']); // Удаление зала (админ)
-    Route::get('/halls/booked', [HallController::class, 'getBookedHalls']);  // Получение забронированных залов
 
 
     // Маршруты бронирования

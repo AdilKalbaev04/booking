@@ -17,7 +17,7 @@ const isAdmin = userRole === "admin";
 
 onMounted(() => {
   if (isLoggedIn) {
-    router.push("/halls");
+    router.push("/bookings");
   }
 });
 </script>

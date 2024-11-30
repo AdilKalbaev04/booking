@@ -76,23 +76,6 @@ class HallController extends Controller
         }
     }
 
-    public function getBookedHalls()
-    {
-        // Получаем текущее время
-        $currentTime = now();
-
-        try {
-            // Получаем все залы, которые имеют бронирования, перекрывающиеся с текущим временем
-            $halls = Hall::whereHas('bookings', function ($query) use ($currentTime) {
-                $query->where('start_time', '<=', $currentTime)
-                    ->where('end_time', '>=', $currentTime);
-            })->get();
-
-            return response()->json($halls);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to fetch booked halls', 'error' => $e->getMessage()], 500);
-        }
-    }
 
 
     // Удаление зала
