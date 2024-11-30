@@ -34,6 +34,7 @@ export default {
         });
 
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("email", response.data.email);
         this.$router.push("/");
         location.reload();
       } catch (error) {

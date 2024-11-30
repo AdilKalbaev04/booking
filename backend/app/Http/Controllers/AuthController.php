@@ -34,31 +34,29 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-    // Проверка аутентификации пользователя
-    if (!Auth::attempt($request->only('email', 'password'))) {
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        // Проверка аутентификации пользователя
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        $user = Auth::user();
+
+        // Создание токена
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        // Возвращаем JSON-ответ с сообщением, email и токеном
+        return response()->json([
+            'message' => 'Login successful',
+            'email' => $user->email, // Используем email пользователя из Auth
+            'token' => $token
+        ])->cookie('token', $token, 60*24*30); // Сохраняем токен в cookie
     }
-
-    $user = Auth::user();
-
-    // Создание токена
-    $token = $user->createToken('auth_token')->plainTextToken;
-
-    // Возвращаем JSON-ответ с сообщением и токеном
-    return response()->json([
-        'message' => 'Login successful',
-        'token' => $token
-    ])->cookie('token', $token, 60*24*30);
-
-}
-
-
 
 
     public function showLoginForm()

@@ -7,6 +7,7 @@ function logout() {
 }
 
 const isLoggedIn = !!localStorage.getItem("token");
+const email = localStorage.getItem("email");
 
 // Пример проверки роли пользователя, предполагая, что токен содержит роль
 const userRole = localStorage.getItem("role"); // Роль может быть сохранена в localStorage вместе с токеном
@@ -18,7 +19,7 @@ const isAdmin = userRole === "admin"; // Пример проверки роли 
     <div class="wrapper">
       <nav class="navbar">
         <div class="nav-links">
-          <h1>there email user</h1>
+          <h1>{{ email }}</h1>
           <RouterLink v-if="isAdmin" to="/users" class="nav-item"
             >Users</RouterLink
           >
