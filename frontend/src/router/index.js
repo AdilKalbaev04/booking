@@ -5,6 +5,7 @@ import RegisterView from "@/views/RegisterView.vue";
 import HallsView from "../views/HallsView.vue";
 import HallCreateEdit from "../views/HallCreateEdit.vue";
 import UserList from "@/views/UserList.vue";
+import UserCreateEdit from "@/views/UserCreateEdit.vue";
 
 const routes = [
   { path: "/", component: LoginView, name: "Login" },
@@ -12,6 +13,7 @@ const routes = [
   { path: "/bookings", component: BookingList, name: "BookingList" },
   { path: "/halls", name: "Halls", component: HallsView },
   { path: "/users", name: "UserList", component: UserList },
+  { path: "/users/create", name: "UsersCreate", component: UserCreateEdit },
   { path: "/halls/create", name: "HallCreate", component: HallCreateEdit },
   { path: "/halls/edit/:id", name: "HallEdit", component: HallCreateEdit },
 ];

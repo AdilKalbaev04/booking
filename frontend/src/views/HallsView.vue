@@ -9,7 +9,6 @@ const fetchHalls = async () => {
     const response = await axios.get("/halls");
     halls.value = response.data;
     console.log(response.data);
-    
   } catch (error) {
     console.error("Error fetching halls:", error);
   }
@@ -64,12 +63,18 @@ const deleteHall = async (id) => {
 }
 
 .hall-card {
-  background: #f4f4f4;
+  background: linear-gradient(135deg, #6e7bff, #4e66f2);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: white;
 }
 
+.hall-card:hover {
+  transform: translateY(-5px);
+}
 .hall-card h2 {
   margin-bottom: 10px;
   font-size: 1.5em;
@@ -77,7 +82,7 @@ const deleteHall = async (id) => {
 
 .hall-card p {
   margin-bottom: 15px;
-  color: #555;
+  color: #ffffff;
 }
 
 button {

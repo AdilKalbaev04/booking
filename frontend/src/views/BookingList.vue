@@ -124,6 +124,12 @@ export default {
       try {
         const response = await axios.get("/bookings");
         this.bookings = response.data;
+
+        this.bookings.forEach((booking) => {
+          if (new Date(booking.end_time) < new Date()) {
+            this.deleteBookingV2(booking.id);
+          }
+        });
       } catch (error) {
         this.handleError(error, "Ошибка при загрузке бронирований");
       }
@@ -141,6 +147,15 @@ export default {
       return hall ? hall.name : "Неизвестный зал";
     },
     openModal(hall) {
+      const isOccupied = this.bookings.some(
+        (booking) => booking.hall_id === hall.id
+      );
+
+      if (isOccupied) {
+        this.showToast("error", "Этот зал уже забронирован!");
+        return;
+      }
+
       this.selectedHall = hall;
       this.isModalOpen = true;
       this.isEditMode = false;
@@ -152,6 +167,7 @@ export default {
         id: null,
       };
     },
+
     openEditModal(booking) {
       this.selectedHall = this.halls.find(
         (hall) => hall.id === booking.hall_id
@@ -190,6 +206,16 @@ export default {
     },
     async deleteBooking(id) {
       if (confirm("Вы уверены, что хотите удалить это бронирование?")) {
+        try {
+          await axios.delete(`/bookings/${id}`);
+          this.fetchBookings();
+        } catch (error) {
+          this.handleError(error, "Ошибка при удалении бронирования");
+        }
+      }
+    },
+    async deleteBookingV2(id) {
+      if (confirm("Время истекло этого зала")) {
         try {
           await axios.delete(`/bookings/${id}`);
           this.fetchBookings();

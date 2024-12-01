@@ -46,7 +46,7 @@ onMounted(() => {
         <div class="xz">
           <span class="email">{{ email }}</span>
           <button v-if="isLoggedIn" @click="logout" class="logout-btn">
-            Logout
+            Выход
           </button>
         </div>
       </nav>
@@ -70,7 +70,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0044cc;
+  background: linear-gradient(135deg, #6e7bff, #4e66f2);
   padding: 15px 30px;
 }
 
