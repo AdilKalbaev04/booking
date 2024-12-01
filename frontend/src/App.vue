@@ -7,6 +7,8 @@ function logout() {
   localStorage.removeItem("email");
   localStorage.removeItem("role");
   location.reload();
+  router.push("/");
+  
 }
 const router = useRouter();
 

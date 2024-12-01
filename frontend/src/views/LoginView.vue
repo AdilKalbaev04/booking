@@ -31,9 +31,9 @@
   </div>
 </template>
 
-
 <script>
 import axios from "@/axios";
+import { useToast } from "vue-toastification"; // Импортируем vue-toastification
 
 export default {
   data() {
@@ -57,12 +57,19 @@ export default {
         location.reload();
       } catch (error) {
         console.error("Ошибка авторизации:", error);
-        alert("Неверные данные для входа.");
+        this.showToast("error", "Неверные данные для входа.");
       }
     },
+
+    // Метод для отображения уведомлений
+    showToast(type, message) {
+      const toast = useToast();
+      toast[type](message);
+    }
   },
 };
 </script>
+
 <style scoped>
 /* Общий фон и центрирование */
 .login {

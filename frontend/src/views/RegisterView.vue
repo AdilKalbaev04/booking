@@ -33,6 +33,7 @@
 
 <script>
 import axios from "@/axios";
+import { useToast } from "vue-toastification"; // Импортируем vue-toastification
 
 export default {
   data() {
@@ -49,13 +50,19 @@ export default {
           password: this.password,
         });
 
-        alert("Регистрация успешна! Войдите в систему.");
-        this.$router.push("/login"); // Переход на страницу входа
+        this.showToast("success", "Регистрация успешна! Войдите в систему.");
+        this.$router.push("/"); // Переход на страницу входа
       } catch (error) {
         console.error("Ошибка регистрации:", error);
-        alert("Ошибка при регистрации.");
+        this.showToast("error", "Ошибка при регистрации.");
       }
     },
+
+    // Метод для отображения уведомлений
+    showToast(type, message) {
+      const toast = useToast();
+      toast[type](message);
+    }
   },
 };
 </script>
