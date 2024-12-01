@@ -22,7 +22,7 @@
           <td>{{ user.role }}</td>
           <td>
             <button @click="openModal(user)" class="edit-btn">Редактировать</button>
-            <button @click="deleteUser(user.id)" class="delete-btn">Удалить</button>
+            <button @click="deleteUser(user.id)" class="cancel-btn">Удалить</button>
           </td>
         </tr>
       </tbody>
@@ -298,6 +298,10 @@ td {
 .cancel-btn {
   background-color: #e74c3c;
 }
+.edit-btn {
+  background-color: #0056b3;
+}
+
 
 .submit-btn {
   background-color: #28a745;

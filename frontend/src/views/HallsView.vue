@@ -101,7 +101,7 @@ onMounted(() => {
         <button class="delete-btn" @click="() => deleteHall(hall.id)">
           Delete
         </button>
-        <button @click="() => openModal(true, hall)">Edit</button>
+        <button class="edit-btn" @click="() => openModal(true, hall)">Edit</button>
       </div>
     </div>
     <button @click="() => openModal(false)" class="add-btn">
@@ -109,65 +109,57 @@ onMounted(() => {
     </button>
 
     <!-- Модальное окно -->
-    <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
-      <div class="modal">
-        <h1>{{ isEditMode ? "Edit Hall" : "Create Hall" }}</h1>
-        <form @submit.prevent="saveHall" class="hall-form">
-          <div>
-            <label for="name">Name:</label>
-            <input
-              v-model="hall.name"
-              id="name"
-              type="text"
-              required
-              placeholder="Enter hall name"
-            />
-          </div>
-          <div>
-            <label for="description">Description:</label>
-            <textarea
-              v-model="hall.description"
-              id="description"
-              required
-              placeholder="Describe the hall..."
-            ></textarea>
-          </div>
-          <div class="modal-buttons">
-            <button type="submit" class="submit-btn">
-              {{ isEditMode ? "Update" : "Create" }}
-            </button>
-            <button type="button" class="cancel-btn" @click="closeModal">
-              Cancel
-            </button>
-          </div>
+    <div v-if="isModalOpen" class="modal-overlay">
+      <div class="modal-content">
+        <h2>{{ isEditMode ? 'Edit Hall' : 'Add New Hall' }}</h2>
+        <form @submit.prevent="saveHall">
+          <label for="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            v-model="hall.name"
+            required
+          />
+          <label for="description">Description:</label>
+          <textarea
+            id="description"
+            v-model="hall.description"
+            required
+          ></textarea>
+          <button type="submit">{{ isEditMode ? 'Save Changes' : 'Create Hall' }}</button>
         </form>
+        <button class="delete-btn" @click="closeModal">Close</button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Основной стиль для списка залов */
 .hall-list {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
+  padding: 45px;
 }
 
 .hall-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
   width: 100%;
 }
 
 .hall-card {
-  background: linear-gradient(135deg, #6e7bff, #4e66f2);
+  max-width: 300px;
+  min-height: 250px;
+  background-image: url("../assets/chair.jpg");
+  background-size: contain;
   padding: 20px;
-  border-radius: 8px;
+  text-align: center;
+  border-radius: 50%;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  color: white;
+  color: rgb(0, 0, 0);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -198,78 +190,53 @@ button:hover {
 
 .delete-btn {
   margin-top: 30px;
-  background-color: #ff5733;
+  background-color: #ff5733 !important;
 }
 .delete-btn:hover {
   background-color: #ff5733;
 }
 
-
-/* Модальное окно */
+/* Стиль для модального окна */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
-.modal {
-  background: white;
+.modal-content {
+  background-color: white;
   padding: 20px;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
 }
 
-.hall-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.hall-form input,
-.hall-form textarea {
-  padding: 12px;
-  font-size: 16px;
+.modal-content input,
+.modal-content textarea {
   width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.submit-btn {
-  background-color: #007bff;
+.modal-content button {
+  background-color: #28a745;
   color: white;
-  padding: 10px 20px;
-  cursor: pointer;
   border: none;
-  font-size: 16px;
-}
-
-.submit-btn:hover {
-  background-color: #0056b3;
-}
-
-.cancel-btn {
-  background-color: #ccc;
-  color: black;
-  padding: 10px 20px;
+  padding: 10px 15px;
   cursor: pointer;
-  border: none;
-  font-size: 16px;
+  margin-top: 10px;
 }
 
-.cancel-btn:hover {
-  background-color: #aaa;
+.modal-content button:hover {
+  background-color: #218838;
 }
 </style>

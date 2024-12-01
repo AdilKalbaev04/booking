@@ -1,6 +1,6 @@
 <template>
   <div class="booking-list">
-    <h1>Список залов</h1>
+    <h1>List of halls</h1>
 
     <div class="hall-cards">
       <div
@@ -11,6 +11,10 @@
       >
         <h3>{{ hall.name }}</h3>
         <p>{{ hall.description }}</p>
+        <div class="chairs-container">
+          <!-- Добавим стулья по кругу -->
+          <div v-for="n in 8" :key="n" class="chair"></div>
+        </div>
         <span
           v-if="bookings.some((booking) => booking.hall_id === hall.id)"
           class="occupied"
@@ -73,8 +77,7 @@
       </div>
     </div>
 
-    <h1>Список бронирований</h1>
-    <!-- Список бронирований -->
+    <h1>List of bookings</h1>
     <div class="booking-cards">
       <div v-for="booking in bookings" :key="booking.id" class="booking-card">
         <div class="booking-info">
@@ -96,6 +99,7 @@
 
 <script>
 import axios from "@/axios";
+import Swal from "sweetalert2";
 import { useToast } from "vue-toastification";
 
 export default {
@@ -205,17 +209,36 @@ export default {
       }
     },
     async deleteBooking(id) {
-      if (confirm("Вы уверены, что хотите удалить это бронирование?")) {
+      const result = await Swal.fire({
+        title: "Вы уверены?",
+        text: "Вы хотите удалить это бронирование?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Да, удалить",
+        cancelButtonText: "Отмена",
+      });
+
+      if (result.isConfirmed) {
         try {
           await axios.delete(`/bookings/${id}`);
           this.fetchBookings();
+          this.showToast("success", "Успешно удалена!");
         } catch (error) {
           this.handleError(error, "Ошибка при удалении бронирования");
         }
       }
     },
     async deleteBookingV2(id) {
-      if (confirm("Время истекло этого зала")) {
+      const result = await Swal.fire({
+        title: "Время истекло этого зала",
+        text: "Вы хотите удалить это бронирование?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Да, удалить",
+        cancelButtonText: "Отмена",
+      });
+
+      if (result.isConfirmed) {
         try {
           await axios.delete(`/bookings/${id}`);
           this.fetchBookings();
@@ -245,30 +268,34 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 45px;
 }
 
 h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;
+  margin-top: 60px;
   color: #333;
 }
 
 .hall-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 80px;
   width: 100%;
 }
 
 .hall-card {
-  background: linear-gradient(135deg, #6e7bff, #4e66f2);
+  max-width: 300px;
+  min-height: 250px;
+  background-image: url("../assets/chair.jpg");
+  background-size: contain;
   padding: 20px;
-  border-radius: 8px;
+  text-align: center;
+  border-radius: 50%;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  color: rgb(0, 0, 0);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: white;
 }
 
 .hall-card:hover {
