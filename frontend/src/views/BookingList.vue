@@ -409,4 +409,17 @@ h1 {
   font-size: large;
   font-weight: 600;
 }
+
+.add-hall-btn {
+  margin: 20px 0;
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.add-hall-btn:hover {
+  background-color: #218838;
+}
 </style>

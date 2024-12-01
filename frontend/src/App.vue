@@ -46,7 +46,7 @@ onMounted(() => {
         <div class="xz">
           <span class="email">{{ email }}</span>
           <button v-if="isLoggedIn" @click="logout" class="logout-btn">
-            Выход
+            Logout
           </button>
         </div>
       </nav>
