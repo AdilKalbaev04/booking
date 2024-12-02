@@ -2,7 +2,9 @@
   <div class="user-list">
     <h1>Список пользователей</h1>
     <div class="actions">
-      <button @click="openModal()" class="create-btn">Создать пользователя</button>
+      <button @click="openModal()" class="create-btn">
+        Создать пользователя
+      </button>
     </div>
     <table class="user-table">
       <thead>
@@ -11,7 +13,7 @@
           <th>Имя</th>
           <th>Email</th>
           <th>Роль</th>
-          <th>Действия</th>
+          <th colspan="2">Действия</th>
         </tr>
       </thead>
       <tbody>
@@ -21,18 +23,27 @@
           <td>{{ user.email }}</td>
           <td>{{ user.role }}</td>
           <td>
-            <button @click="openModal(user)" class="edit-btn">Редактировать</button>
-            <button @click="deleteUser(user.id)" class="cancel-btn">Удалить</button>
+            <button class="edit-btn" @click="openModal(user)">
+              Редактировать
+            </button>
+          </td>
+          <td>
+            <button class="cancel-btn" @click="deleteUser(user.id)">
+              Удалить
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <!-- Модальное окно -->
     <div v-if="isModalOpen" class="modal-overlay">
       <div class="modal">
         <div class="modal-content">
-          <h2>{{ isEditMode ? "Редактировать пользователя" : "Создать пользователя" }}</h2>
+          <h2>
+            {{
+              isEditMode ? "Редактировать пользователя" : "Создать пользователя"
+            }}
+          </h2>
           <form @submit.prevent="saveUser">
             <div class="form-group">
               <label for="name">Имя:</label>
@@ -63,7 +74,6 @@
                 <option value="user">Пользователь</option>
               </select>
             </div>
-            <!-- Добавлено поле для пароля -->
             <div class="form-group" v-if="!isEditMode">
               <label for="password">Пароль:</label>
               <input
@@ -79,7 +89,9 @@
               <button type="submit" class="submit-btn">
                 {{ isEditMode ? "Обновить" : "Создать" }}
               </button>
-              <button type="button" @click="closeModal" class="cancel-btn">Отмена</button>
+              <button type="button" @click="closeModal" class="cancel-btn">
+                Отмена
+              </button>
             </div>
           </form>
         </div>
@@ -123,7 +135,7 @@ export default {
       if (user) {
         this.isEditMode = true;
         this.user = { ...user };
-        this.user.password = "";  // При редактировании не показываем поле для пароля
+        this.user.password = "";
       } else {
         this.isEditMode = false;
         this.user = { name: "", email: "", role: "user", password: "" };
@@ -300,8 +312,11 @@ td {
 }
 .edit-btn {
   background-color: #0056b3;
+  color: white;
 }
-
+.edit-btn:hover {
+  background-color: #2588f3;
+}
 
 .submit-btn {
   background-color: #28a745;

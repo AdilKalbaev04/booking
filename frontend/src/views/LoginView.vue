@@ -25,8 +25,13 @@
             class="form-control"
           />
         </div>
+
         <button type="submit" class="submit-btn">Войти</button>
       </form>
+      <div style="color: white;">
+        Если нету аккаунта
+        <RouterLink to="/register" class="nav-item">Зарегистрировать</RouterLink>
+      </div>
     </div>
   </div>
 </template>
@@ -65,7 +70,7 @@ export default {
     showToast(type, message) {
       const toast = useToast();
       toast[type](message);
-    }
+    },
   },
 };
 </script>

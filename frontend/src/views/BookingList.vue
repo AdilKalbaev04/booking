@@ -1,6 +1,6 @@
 <template>
   <div class="booking-list">
-    <h1>List of halls</h1>
+    <h1>Список залов</h1>
 
     <div class="hall-cards">
       <div
@@ -12,7 +12,6 @@
         <h3>{{ hall.name }}</h3>
         <p>{{ hall.description }}</p>
         <div class="chairs-container">
-          <!-- Добавим стулья по кругу -->
           <div v-for="n in 8" :key="n" class="chair"></div>
         </div>
         <span
@@ -77,7 +76,7 @@
       </div>
     </div>
 
-    <h1>List of bookings</h1>
+    <h1>Список забронированных залов</h1>
     <div class="booking-cards">
       <div v-for="booking in bookings" :key="booking.id" class="booking-card">
         <div class="booking-info">

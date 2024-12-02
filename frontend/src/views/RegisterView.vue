@@ -27,6 +27,10 @@
         </div>
         <button type="submit" class="submit-btn">Зарегистрироваться</button>
       </form>
+      <div style="color: white">
+        Если есть аккаунт
+        <RouterLink to="/" class="nav-item">Вход</RouterLink>
+      </div>
     </div>
   </div>
 </template>
@@ -62,7 +66,7 @@ export default {
     showToast(type, message) {
       const toast = useToast();
       toast[type](message);
-    }
+    },
   },
 };
 </script>

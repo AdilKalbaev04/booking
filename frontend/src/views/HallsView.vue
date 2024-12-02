@@ -93,7 +93,7 @@ onMounted(() => {
 
 <template>
   <div class="hall-list">
-    <h1>Halls</h1>
+    <h1>Залы</h1>
     <div class="hall-cards">
       <div v-for="hall in halls" :key="hall.id" class="hall-card">
         <h2>{{ hall.name }}</h2>

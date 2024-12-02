@@ -6,10 +6,13 @@ function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("email");
   localStorage.removeItem("role");
-  location.reload();
   router.push("/");
-  
+
+  setTimeout(() => {
+    location.reload();
+  }, 1000); 
 }
+
 const router = useRouter();
 
 const isLoggedIn = !!localStorage.getItem("token");
@@ -30,25 +33,25 @@ onMounted(() => {
       <nav class="navbar">
         <div class="nav-links">
           <RouterLink v-if="isAdmin" to="/users" class="nav-item"
-            >Users</RouterLink
+            >Пользователи</RouterLink
           >
 
           <RouterLink to="/bookings" v-if="isLoggedIn" class="nav-item"
-            >Bookings</RouterLink
+            >Бронирование</RouterLink
           >
-      
+
           <RouterLink to="/halls" v-if="isLoggedIn" class="nav-item"
-            >Halls</RouterLink
+            >Залы</RouterLink
           >
           <template v-else>
-            <RouterLink to="/" class="nav-item">Login</RouterLink>
-            <RouterLink to="/register" class="nav-item">Register</RouterLink>
+          
+          
           </template>
         </div>
         <div class="xz">
           <span class="email">{{ email }}</span>
           <button v-if="isLoggedIn" @click="logout" class="logout-btn">
-            Logout
+            Выход
           </button>
         </div>
       </nav>
@@ -74,6 +77,7 @@ body {
   align-items: center;
   background: linear-gradient(135deg, #6e7bff, #4e66f2);
   padding: 15px 30px;
+  min-height: 70px;
 }
 
 .xz {
