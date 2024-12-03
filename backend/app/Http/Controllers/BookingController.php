@@ -62,7 +62,7 @@ class BookingController extends Controller
 
         // Проверка занятости зала
         $conflict = Booking::where('hall_id', $request->hall_id)
-            ->where('id', '!=', $id) // Исключаем текущее бронирование
+            ->where('id', '!=', $id)
             ->where(function ($query) use ($request) {
                 $query->whereBetween('start_time', [$request->start_time, $request->end_time])
                       ->orWhereBetween('end_time', [$request->start_time, $request->end_time]);

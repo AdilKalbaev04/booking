@@ -29,7 +29,6 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // Возвращаем JSON-ответ с токеном и кукой
         return response()->json(['message' => 'Registration successful'])->cookie('token', $token, 60*24*30);
     }
 
@@ -40,14 +39,12 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // Проверка аутентификации пользователя
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
         $user = Auth::user();
 
-        // Создание токена
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
